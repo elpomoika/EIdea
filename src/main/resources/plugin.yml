@@ -16,3 +16,4 @@ commands:
   idea:
     usage: /idea <your idea>
   ideas: {}
+  idea-test: {}

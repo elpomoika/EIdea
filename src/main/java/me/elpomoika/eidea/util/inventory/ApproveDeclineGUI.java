@@ -17,7 +17,7 @@ public class ApproveDeclineGUI implements InventoryHolder {
     private final Inventory inventory;
 
     public ApproveDeclineGUI() {
-        this.inventory = Bukkit.createInventory(this, 27, "Approve/Decline ideas");
+        this.inventory = Bukkit.createInventory(this, 27, "Меню одобрения");
 
         initializeItems();
     }

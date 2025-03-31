@@ -2,9 +2,10 @@ package me.elpomoika.eidea.database.sqlite;
 
 import me.elpomoika.eidea.EIdea;
 import me.elpomoika.eidea.database.Repository;
-import me.elpomoika.eidea.models.IdeaModel;
+import me.elpomoika.eidea.models.Idea;
 import me.elpomoika.eidea.util.CooldownManager;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.sql.PreparedStatement;
@@ -29,8 +30,12 @@ public class MysqlRepository implements Repository {
     @Override
     public void addPlayer(Player player, String idea) {
         int requestCount = getRequestCountByPlayer(player);
+        if (idea.isEmpty()) return;
+        if (isIdeaAlreadyExists(idea)) {
+            player.sendMessage(ChatColor.RED + "Идея не уникальна!");
+            return;
+        }
 
-        boolean hasPermission = player.hasPermission("eidea.default");
         int maxRequest = 1;
 
         if (requestCount >= maxRequest) {
@@ -38,7 +43,7 @@ public class MysqlRepository implements Repository {
             return;
         }
 
-        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, 'PENDING')")) {
+        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, 'В ОЖИДАНИИ')")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, idea);
             preparedStatement.executeUpdate();
@@ -51,6 +56,11 @@ public class MysqlRepository implements Repository {
     @Override
     public void addPlayerPremium(Player player, String idea) {
         int requestCount = getRequestCountByPlayer(player);
+        if (idea.isEmpty()) return;
+        if (isIdeaAlreadyExists(idea)) {
+            player.sendMessage(ChatColor.RED + "Идея не уникальна!");
+            return;
+        }
 
         boolean hasPermission = player.hasPermission("eidea.premium");
         int maxRequests = hasPermission ? 3 : 1;
@@ -60,7 +70,7 @@ public class MysqlRepository implements Repository {
             return;
         }
 
-        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, 'PENDING')")) {
+        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, 'В ОЖИДАНИИ')")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, idea);
             preparedStatement.executeUpdate();
@@ -110,7 +120,7 @@ public class MysqlRepository implements Repository {
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-            if (status.equalsIgnoreCase("DECLINE")) {
+            if (status.equalsIgnoreCase("ОТКЛОНЕНО")) {
                 Player player = Bukkit.getPlayerExact(getPlayer(id));
                 if (player == null) return;
 
@@ -122,12 +132,12 @@ public class MysqlRepository implements Repository {
     }
 
     @Override
-    public List<IdeaModel> getAllIdeas() {
-        List<IdeaModel> list = new ArrayList<>();
+    public List<Idea> getAllIdeas() {
+        List<Idea> list = new ArrayList<>();
         try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("SELECT id, uuid, idea, status FROM players")) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                list.add(new IdeaModel(
+                list.add(new Idea(
                         resultSet.getInt("id"),
                         UUID.fromString(resultSet.getString("uuid")),
                         resultSet.getString("idea"),
@@ -142,7 +152,7 @@ public class MysqlRepository implements Repository {
 
     @Override
     public int getRequestCountByPlayer(Player player) {
-        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("SELECT COUNT(*) FROM players WHERE uuid = ? AND status = 'PENDING'")) {
+        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("SELECT COUNT(*) FROM players WHERE uuid = ? AND status = 'В ОЖИДАНИИ'")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -154,14 +164,12 @@ public class MysqlRepository implements Repository {
         }
     }
 
-    @Override
-    public boolean wasIdeaReject(UUID uuid) {
-        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("SELECT status FROM players WHERE uuid = ? ORDER BY id DESC LIMIT 1")) {
-            preparedStatement.setString(1, uuid.toString());
-            ResultSet resultSet = preparedStatement.executeQuery();
+    private boolean isIdeaAlreadyExists(String idea) {
+        try (PreparedStatement preparedStatement = service.getConnecion().prepareStatement("SELECT COUNT(*) FROM players WHERE idea = ?")){
 
-            return resultSet.next() && resultSet.getString("status").equalsIgnoreCase("DECLINE");
-
+            preparedStatement.setString(1, idea);
+            ResultSet rs = preparedStatement.executeQuery();
+            return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

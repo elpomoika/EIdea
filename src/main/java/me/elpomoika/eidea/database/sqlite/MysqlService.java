@@ -35,8 +35,8 @@ public class MysqlService implements DatabaseConnection {
             statement.execute("CREATE TABLE IF NOT EXISTS players (" +
                     "id INTEGER PRIMARY KEY AUTO_INCREMENT, " +
                     "uuid TEXT NOT NULL, " +
-                    "idea TEXT UNIQUE NOT NULL, " +
-                    "status VARCHAR(10) NOT NULL DEFAULT 'PENDING')");
+                    "idea TEXT NOT NULL, " +
+                    "status VARCHAR(10) NOT NULL DEFAULT 'В ОЖИДАНИИ')");
         }
     }
 

@@ -1,7 +1,7 @@
 package me.elpomoika.eidea.util.inventory;
 
 import me.elpomoika.eidea.database.sqlite.MysqlRepository;
-import me.elpomoika.eidea.models.IdeaModel;
+import me.elpomoika.eidea.models.Idea;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,12 +25,12 @@ public class OnlyApprovedGUI implements InventoryHolder {
     }
 
     private void initializeItems() {
-        List<IdeaModel> ideas = repository.getAllIdeas();
+        List<Idea> ideas = repository.getAllIdeas();
         int slot = 0;
         int page = 0;
 
-        for (IdeaModel idea : ideas) {
-            if (!idea.getStatus().equalsIgnoreCase("APPROVE")) continue;
+        for (Idea idea : ideas) {
+            if (!idea.getStatus().equalsIgnoreCase("ОДОБРЕНО")) continue;
 
             ItemStack item = new ItemStack(Material.CREEPER_HEAD);
             ItemMeta itemMeta = item.getItemMeta();
@@ -57,7 +57,7 @@ public class OnlyApprovedGUI implements InventoryHolder {
     }
 
     private Inventory createInventory(int page) {
-        return Bukkit.createInventory(this, 54, "Only approved - Страница " + (page + 1));
+        return Bukkit.createInventory(this, 54, "Только одобреные - Страница " + (page + 1));
     }
 
     @Override

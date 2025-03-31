@@ -1,7 +1,7 @@
 package me.elpomoika.eidea.util.inventory;
 
 import me.elpomoika.eidea.database.sqlite.MysqlRepository;
-import me.elpomoika.eidea.models.IdeaModel;
+import me.elpomoika.eidea.models.Idea;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,12 +26,12 @@ public class IdeaGUI implements InventoryHolder {
     }
 
     private void initializeItems() {
-        List<IdeaModel> ideas = repository.getAllIdeas();
+        List<Idea> ideas = repository.getAllIdeas();
         int slot = 0;
         int page = 0;
 
-        for (IdeaModel idea : ideas) {
-            if (!idea.getStatus().equalsIgnoreCase("PENDING")) continue;
+        for (Idea idea : ideas) {
+            if (!idea.getStatus().equalsIgnoreCase("В ОЖИДАНИИ")) continue;
 
             ItemStack items = new ItemStack(Material.CREEPER_HEAD);
             ItemMeta itemMeta = items.getItemMeta();
@@ -66,13 +66,13 @@ public class IdeaGUI implements InventoryHolder {
         ItemStack goOnlyDeclinedGUI = new ItemStack(Material.ARROW);
         ItemMeta goOnlyDeclinedGUIItemMeta = goOnlyDeclinedGUI.getItemMeta();
         goOnlyDeclinedGUIItemMeta.setDisplayName(ChatColor.GRAY + "Переход к только отклоненным идеям");
-        goOnlyApprovedGUI.setItemMeta(goOnlyDeclinedGUIItemMeta);
+        goOnlyDeclinedGUI.setItemMeta(goOnlyDeclinedGUIItemMeta);
         inventory.setItem(45, goOnlyDeclinedGUI);
     }
 
 
     private Inventory createInventory(int page) {
-        return Bukkit.createInventory(this, 54, "Pending ideas - Страница " + (page + 1));
+        return Bukkit.createInventory(this, 54, "Ожидающие идеи - Страница " + (page + 1));
     }
 
     @Override

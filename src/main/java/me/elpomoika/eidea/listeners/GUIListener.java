@@ -2,7 +2,6 @@ package me.elpomoika.eidea.listeners;
 
 import me.elpomoika.eidea.EIdea;
 import me.elpomoika.eidea.database.sqlite.MysqlRepository;
-import me.elpomoika.eidea.models.IdeaModel;
 import me.elpomoika.eidea.util.inventory.ApproveDeclineGUI;
 import me.elpomoika.eidea.util.inventory.IdeaGUI;
 import me.elpomoika.eidea.util.inventory.OnlyApprovedGUI;
@@ -17,16 +16,12 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-
 public class GUIListener implements Listener {
     private final MysqlRepository repository;
-    private final List<IdeaModel> ideas;
     private final EIdea plugin;
 
     public GUIListener(MysqlRepository repository, EIdea plugin) {
         this.repository = repository;
-        this.ideas = repository.getAllIdeas();
         this.plugin = plugin;
     }
 
@@ -70,7 +65,7 @@ public class GUIListener implements Listener {
             String command = plugin.getConfig().getString("command-if-approved");
 
             if (clickedItem.getType() == Material.GREEN_WOOL) {
-                repository.updateStatus(ideaGUI.getId(), "APPROVE");
+                repository.updateStatus(ideaGUI.getId(), "ОДОБРЕНО");
                 player.closeInventory();
                 command = command.replace("%player_name%", repository.getPlayer(ideaGUI.getId()));
                 if (command != null && !command.isEmpty()) {
@@ -78,7 +73,7 @@ public class GUIListener implements Listener {
                 }
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("approve-message")));
             } else if (clickedItem.getType() == Material.RED_WOOL) {
-                repository.updateStatus(ideaGUI.getId(), "DECLINE");
+                repository.updateStatus(ideaGUI.getId(), "ОТКЛОНЕНО");
                 player.closeInventory();
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("decline-message")));
             }

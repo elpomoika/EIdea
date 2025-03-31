@@ -58,6 +58,10 @@
           <id>sonatype</id>
           <url>https://oss.sonatype.org/content/groups/public/</url>
       </repository>
+      <repository>
+          <id>xenondevs</id>
+          <url>https://repo.xenondevs.xyz/releases</url>
+      </repository>
   </repositories>
 
   <dependencies>
@@ -73,6 +77,12 @@
           <artifactId>lombok</artifactId>
           <version>1.18.36</version>
           <scope>provided</scope>
+      </dependency>
+      <dependency>
+          <groupId>xyz.xenondevs.invui</groupId>
+          <artifactId>invui</artifactId>
+          <version>1.45</version>
+          <type>pom</type>
       </dependency>
       <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
       <dependency>
