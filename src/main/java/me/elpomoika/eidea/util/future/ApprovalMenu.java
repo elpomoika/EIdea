@@ -1,23 +1,35 @@
 package me.elpomoika.eidea.util.future;
 
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.jetbrains.annotations.NotNull;
-import xyz.xenondevs.invui.item.ItemProvider;
-import xyz.xenondevs.invui.item.builder.ItemBuilder;
-import xyz.xenondevs.invui.item.impl.AbstractItem;
+import org.bukkit.inventory.ItemStack;
+import org.elpomoika.inventoryapi.InventoryApi;
+import org.elpomoika.inventoryapi.inventory.NormalInventory;
+import org.elpomoika.inventoryapi.item.ItemBuilder;
 
-public class ApprovalMenu extends AbstractItem {
+public class ApprovalMenu extends AbstractMenu {
 
-    @Override
-    public ItemProvider getItemProvider() {
-        return new ItemBuilder(Material.GREEN_WOOL).setDisplayName("Approval menu");
+    public ApprovalMenu(InventoryApi api) {
+        super(api);
     }
 
     @Override
-    public void handleClick(@NotNull ClickType clickType, @NotNull Player player, @NotNull InventoryClickEvent inventoryClickEvent) {
+    public NormalInventory createInventory() {
+        return new NormalInventory(getApi(), "Approval menu", 54);
+    }
 
+    @Override
+    protected void initializeItems() {
+        ItemStack approveItem = new ItemBuilder(Material.GREEN_WOOL)
+                .setDisplayName("&aОдобрить")
+                .setAmount(1)
+                .build();
+
+        ItemStack declineItem = new ItemBuilder(Material.RED_WOOL)
+                .setDisplayName("&cОтклонить")
+                .setAmount(1)
+                .build();
+
+        inventory.setItem(45, approveItem);
+        inventory.setItem(53, declineItem);
     }
 }

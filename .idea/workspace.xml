@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="7200ba20-a4dd-4df5-9ef2-2445b7e063e5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/material_theme_project_new.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/EIdea.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/EIdea.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/commands/TestOpenGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/commands/TestOpenGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/util/future/ApprovalMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/util/future/BackItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/util/future/ForwardItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/me/elpomoika/eidea/util/future/PendingMenu.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/config.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/eidea.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/EIdea.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/commands/OpenIdeaGUICommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/commands/SendIdeaCommand.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/commands/TestOpenGUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/database/DatabaseConnection.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/database/Repository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/database/sqlite/MysqlRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/database/sqlite/MysqlService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/listeners/GUIListener.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/models/ConfigModel.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/models/Idea.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/models/IdeaStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/CooldownManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/future/ApprovalMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/future/BackItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/future/ForwardItem.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/future/PendingMenu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/inventory/ApproveDeclineGUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/inventory/IdeaGUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/inventory/OnlyApprovedGUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/me/elpomoika/eidea/util/inventory/OnlyDeclineGUI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/todo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/original-EIdea-1.0.jar" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2udMT7UQ8x1b9L6cEwQXNKe3a7K" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.EIdea package.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;future&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/elpomoika/java/EnderChest&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="EIdea package" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="cmdOptions" />
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="package" />
+              </list>
+            </option>
+            <option name="multimoduleDir" />
+            <option name="pomFileName" />
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="projectsCmdOptionValues">
+              <list />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="7200ba20-a4dd-4df5-9ef2-2445b7e063e5" name="Changes" comment="" />
+      <created>1742574004983</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1742574004983</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="java:org.spigotmc:spigot-api" />
+    <option featureType="dependencySupport" implementationName="java:org.projectlombok:lombok" />
+  </component>
+</project>

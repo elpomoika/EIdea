@@ -1,27 +1,30 @@
 package me.elpomoika.eidea.commands;
 
 import me.elpomoika.eidea.database.sqlite.MysqlRepository;
-import me.elpomoika.eidea.util.future.PendingMenu;
+import me.elpomoika.eidea.util.future.PendingIdeasMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.jetbrains.annotations.NotNull;
+import org.elpomoika.inventoryapi.InventoryApi;
+
+import java.util.Objects;
 
 public class TestOpenGUI implements CommandExecutor {
     private final MysqlRepository repository;
-    private PendingMenu pendingMenu;
+    private final InventoryApi api;
 
-    public TestOpenGUI(MysqlRepository repository) {
-        this.repository = repository;
+    public TestOpenGUI(MysqlRepository repository, InventoryApi api) {
+        this.repository = Objects.requireNonNull(repository, "MysqlRepository cannot be null");
+        this.api = Objects.requireNonNull(api, "InventoryApi cannot be null");
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+    public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         Player player = (Player) sender;
-        this.pendingMenu = new PendingMenu(player, repository);
-        pendingMenu.createGUI(player);
+        PendingIdeasMenu inventory = new PendingIdeasMenu(this.api, this.repository);
 
+        inventory.open(player);
         return true;
     }
 }

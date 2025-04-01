@@ -51,27 +51,22 @@
 
   <repositories>
       <repository>
-          <id>spigotmc-repo</id>
-          <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+          <id>papermc</id>
+          <url>https://repo.papermc.io/repository/maven-public/</url>
       </repository>
       <repository>
           <id>sonatype</id>
           <url>https://oss.sonatype.org/content/groups/public/</url>
       </repository>
-      <repository>
-          <id>xenondevs</id>
-          <url>https://repo.xenondevs.xyz/releases</url>
-      </repository>
   </repositories>
 
   <dependencies>
       <dependency>
-          <groupId>org.spigotmc</groupId>
-          <artifactId>spigot-api</artifactId>
+          <groupId>com.destroystokyo.paper</groupId>
+          <artifactId>paper-api</artifactId>
           <version>1.16.5-R0.1-SNAPSHOT</version>
           <scope>provided</scope>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
       <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
@@ -79,12 +74,13 @@
           <scope>provided</scope>
       </dependency>
       <dependency>
-          <groupId>xyz.xenondevs.invui</groupId>
-          <artifactId>invui</artifactId>
-          <version>1.45</version>
-          <type>pom</type>
+          <groupId>org.elpomoika</groupId>
+          <artifactId>InventoryApi</artifactId>
+          <version>1.0</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/libs/InventoryApi-1.5.jar</systemPath>
       </dependency>
-      <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+
       <dependency>
           <groupId>mysql</groupId>
           <artifactId>mysql-connector-java</artifactId>
