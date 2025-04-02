@@ -46,7 +46,7 @@ public final class EIdea extends JavaPlugin {
             throw new RuntimeException(e);
         }
         getCommand("ideas").setExecutor(new OpenIdeaGUICommand(repository, this));
-        getCommand("idea-test").setExecutor(new TestOpenGUI(Objects.requireNonNull(this.repository, "Pizda wse polomalos"), api));
+        getCommand("idea-test").setExecutor(new TestOpenGUI(repository, api, this));
         getCommand("idea").setExecutor(new SendIdeaCommand(repository, manager, this));
         getServer().getPluginManager().registerEvents(new GUIListener(repository, this), this);
     }

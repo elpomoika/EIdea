@@ -1,5 +1,6 @@
 package me.elpomoika.eidea.util.future;
 
+import me.elpomoika.eidea.EIdea;
 import me.elpomoika.eidea.database.sqlite.MysqlRepository;
 import me.elpomoika.eidea.models.Idea;
 import me.elpomoika.eidea.models.IdeaStatus;
@@ -12,15 +13,14 @@ import org.elpomoika.inventoryapi.InventoryApi;
 import org.elpomoika.inventoryapi.inventory.NormalInventory;
 import org.elpomoika.inventoryapi.item.ItemBuilder;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class PendingIdeasMenu extends AbstractMenu {
+    private final EIdea plugin;
 
-    public PendingIdeasMenu(InventoryApi api, MysqlRepository repository) {
+    public PendingIdeasMenu(InventoryApi api, MysqlRepository repository, EIdea plugin) {
         super(api, repository);
+        this.plugin = plugin;
     }
 
     @Override
@@ -31,14 +31,12 @@ public class PendingIdeasMenu extends AbstractMenu {
     @Override
     protected void initializeItems() {
         final List<Idea> ideas = this.repository.getAllIdeas();
-        if (ideas == null || ideas.isEmpty()) {
-            return;
-        }
+        if (    ideas.isEmpty()) return;
 
         int slot = 0;
 
         for (Idea idea : ideas) {
-            if (!idea.getStatus().equalsIgnoreCase(IdeaStatus.PENDING.getDisplayName().toUpperCase())) continue;
+            if (!IdeaStatus.PENDING.equalsIgnoreCase(idea.getStatus())) continue;
 
             ItemStack item = new ItemBuilder(Material.PAPER)
                     .setDisplayName("Идея №" + idea.getId())
@@ -50,8 +48,9 @@ public class PendingIdeasMenu extends AbstractMenu {
 
             inventory.setItem(slot, item).setClickHandler(slot, event -> {
                 Player player = (Player) event.getWhoClicked();
-                ApprovalMenu approvalMenu = new ApprovalMenu(getApi(), repository);
-
+                ApprovalMenu approvalMenu = new ApprovalMenu(getApi(), repository, idea.getId(), plugin);
+                approvalMenu.init();
+                
                 approvalMenu.open(player);
             });
 

@@ -16,11 +16,14 @@ public abstract class AbstractMenu {
         this.api = api;
         this.repository = repository;
         this.inventory = createInventory();
-        initializeItems();
     }
 
     public void open(Player player) {
         inventory.open(player);
+    }
+
+    public void init() {
+        initializeItems();
     }
 
     public abstract NormalInventory createInventory();

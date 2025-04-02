@@ -1,9 +1,9 @@
 package me.elpomoika.eidea.models;
 
 public enum IdeaStatus {
-    APPROVED("Одобрено"),
-    DECLINED("Отклонено"),
-    PENDING("В Ожидании");
+    APPROVED("ОДОБРЕНО"),
+    DECLINED("ОТКЛОНЕНО"),
+    PENDING("В ОЖИДАНИИ");
 
     private final String displayName;
 
