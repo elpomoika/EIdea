@@ -1,5 +1,8 @@
 package me.elpomoika.eidea.util.future;
 
+import lombok.Getter;
+import me.elpomoika.eidea.EIdea;
+import me.elpomoika.eidea.database.sqlite.MysqlRepository;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.elpomoika.inventoryapi.InventoryApi;
@@ -8,8 +11,8 @@ import org.elpomoika.inventoryapi.item.ItemBuilder;
 
 public class ApprovalMenu extends AbstractMenu {
 
-    public ApprovalMenu(InventoryApi api) {
-        super(api);
+    public ApprovalMenu(InventoryApi api, MysqlRepository repository) {
+        super(api, repository);
     }
 
     @Override

@@ -78,7 +78,7 @@
           <artifactId>InventoryApi</artifactId>
           <version>1.0</version>
           <scope>system</scope>
-          <systemPath>${project.basedir}/libs/InventoryApi-1.5.jar</systemPath>
+          <systemPath>${project.basedir}/libs/InventoryApi-1.8.jar</systemPath>
       </dependency>
 
       <dependency>

@@ -6,20 +6,21 @@ import me.elpomoika.eidea.models.IdeaStatus;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.elpomoika.inventoryapi.InventoryApi;
 import org.elpomoika.inventoryapi.inventory.NormalInventory;
 import org.elpomoika.inventoryapi.item.ItemBuilder;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PendingIdeasMenu extends AbstractMenu {
-    private final MysqlRepository repository;
 
     public PendingIdeasMenu(InventoryApi api, MysqlRepository repository) {
-        super(api);
-        this.repository = Objects.requireNonNull(repository, "MysqlRepository cannot be null hhahah");
+        super(api, repository);
     }
 
     @Override
@@ -30,6 +31,10 @@ public class PendingIdeasMenu extends AbstractMenu {
     @Override
     protected void initializeItems() {
         final List<Idea> ideas = this.repository.getAllIdeas();
+        if (ideas == null || ideas.isEmpty()) {
+            return;
+        }
+
         int slot = 0;
 
         for (Idea idea : ideas) {
@@ -43,7 +48,14 @@ public class PendingIdeasMenu extends AbstractMenu {
                     .setAmount(1)
                     .build();
 
-            inventory.setItem(slot++, item);
+            inventory.setItem(slot, item).setClickHandler(slot, event -> {
+                Player player = (Player) event.getWhoClicked();
+                ApprovalMenu approvalMenu = new ApprovalMenu(getApi(), repository);
+
+                approvalMenu.open(player);
+            });
+
+            slot++;
         }
     }
 }
