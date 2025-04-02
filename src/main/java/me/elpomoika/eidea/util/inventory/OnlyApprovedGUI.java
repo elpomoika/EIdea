@@ -1,6 +1,6 @@
 package me.elpomoika.eidea.util.inventory;
 
-import me.elpomoika.eidea.database.sqlite.MysqlRepository;
+import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.models.Idea;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

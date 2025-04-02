@@ -1,4 +1,4 @@
-package me.elpomoika.eidea.util.future;
+package me.elpomoika.eidea.util.future.menus;
 
 import lombok.Getter;
 import me.elpomoika.eidea.EIdea;
@@ -16,17 +16,15 @@ import org.elpomoika.inventoryapi.item.ItemBuilder;
 public class ApprovalMenu extends AbstractMenu {
     @Getter
     private final int id;
-    private final EIdea plugin;
 
     public ApprovalMenu(InventoryApi api, MysqlRepository repository, int id, EIdea plugin) {
-        super(api, repository);
+        super(api, plugin, repository);
         this.id = id;
-        this.plugin = plugin;
     }
 
     @Override
     public NormalInventory createInventory() {
-        NormalInventory normalInventory = new NormalInventory(getApi(), "Approval menu", 54);
+        NormalInventory normalInventory = new NormalInventory(getApi(), this.plugin.getConfig().getString("approval-menu.title"), 54);
         return normalInventory;
     }
 

@@ -1,7 +1,7 @@
 package me.elpomoika.eidea.listeners;
 
 import me.elpomoika.eidea.EIdea;
-import me.elpomoika.eidea.database.sqlite.MysqlRepository;
+import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.util.inventory.ApproveDeclineGUI;
 import me.elpomoika.eidea.util.inventory.IdeaGUI;
 import me.elpomoika.eidea.util.inventory.OnlyApprovedGUI;

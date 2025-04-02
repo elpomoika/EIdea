@@ -1,8 +1,9 @@
-package me.elpomoika.eidea.util.future;
+package me.elpomoika.eidea.util.future.menus;
 
 import me.elpomoika.eidea.EIdea;
 import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.models.IdeaStatus;
+import me.elpomoika.eidea.util.future.core.IdeasMenu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,16 +12,13 @@ import org.elpomoika.inventoryapi.inventory.NormalInventory;
 import org.elpomoika.inventoryapi.item.ItemBuilder;
 
 public class PendingIdeasMenu extends IdeasMenu {
-    private final EIdea plugin;
-
     public PendingIdeasMenu(InventoryApi api, MysqlRepository repository, EIdea plugin) {
         super(api, repository, plugin, IdeaStatus.PENDING);
-        this.plugin = plugin;
     }
 
     @Override
     public NormalInventory createInventory() {
-        NormalInventory normalInventory = new NormalInventory(getApi(), "Pending ideas", 54);
+        NormalInventory normalInventory = new NormalInventory(getApi(), plugin.getConfig().getString("pending-ideas-menu.title") ,54);
 
         normalInventory.setItem(45, createApprovedFilterItem())
                 .setClickHandler(45, event -> {

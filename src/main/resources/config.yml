@@ -9,6 +9,24 @@ idea-is-empty-message: "Please fill your ebanyi idea in command args"
 
 command-if-approved: "give %player_name% diamond_helmet"
 
+idea-item:
+  displayname: "&aИдея №%id%"
+  lore:
+    - "&c&lАвтор: %player%"
+    - "&fИдея: %idea%"
+    - "&aСтатус: %status%"
+
+
+pending-ideas-menu:
+  title: "Идеи ожидающие вердикта"
+only-declined-menu:
+  title: "Отлоненые идеи"
+only-approve-menu:
+  title: "Одобреные идеи"
+approval-menu:
+  title: "Меню одобрения"
+
+
 mysql:
   host: 127.0.0.1
   port: 3306

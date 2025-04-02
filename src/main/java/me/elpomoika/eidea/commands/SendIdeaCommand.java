@@ -1,7 +1,7 @@
 package me.elpomoika.eidea.commands;
 
 import me.elpomoika.eidea.EIdea;
-import me.elpomoika.eidea.database.sqlite.MysqlRepository;
+import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.util.CooldownManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -26,6 +26,7 @@ public class SendIdeaCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)) return false;
         String message = String.join(" ", args);
+        //TODO сделать проверку на длинну
         if (message.isEmpty()) {
             sender.sendMessage(plugin.getConfig().getString("idea-is-empty-message"));
         }

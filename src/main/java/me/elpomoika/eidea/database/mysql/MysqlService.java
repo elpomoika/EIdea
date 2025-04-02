@@ -1,4 +1,4 @@
-package me.elpomoika.eidea.database.sqlite;
+package me.elpomoika.eidea.database.mysql;
 
 import me.elpomoika.eidea.EIdea;
 import me.elpomoika.eidea.database.DatabaseConnection;

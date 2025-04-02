@@ -7,14 +7,14 @@ import me.elpomoika.eidea.util.future.core.IdeasMenu;
 import org.elpomoika.inventoryapi.InventoryApi;
 import org.elpomoika.inventoryapi.inventory.NormalInventory;
 
-public class OnlyApproveMenu extends IdeasMenu {
+public class OnlyDeclinedMenu extends IdeasMenu {
 
-    public OnlyApproveMenu(InventoryApi api, MysqlRepository repository, EIdea plugin) {
-        super(api, repository, plugin, IdeaStatus.APPROVED);
+    public OnlyDeclinedMenu(InventoryApi api, MysqlRepository repository, EIdea plugin) {
+        super(api, repository, plugin, IdeaStatus.DECLINED);
     }
 
     @Override
     public NormalInventory createInventory() {
-        return new NormalInventory(getApi(), plugin.getConfig().getString("only-approve-menu.title"), 54);
+        return new NormalInventory(getApi(), plugin.getConfig().getString("only-declined-menu.title"), 54);
     }
 }
