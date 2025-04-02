@@ -1,7 +1,7 @@
 package me.elpomoika.eidea.util.future;
 
 import lombok.Getter;
-import me.elpomoika.eidea.database.sqlite.MysqlRepository;
+import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import org.bukkit.entity.Player;
 import org.elpomoika.inventoryapi.InventoryApi;
 import org.elpomoika.inventoryapi.inventory.NormalInventory;

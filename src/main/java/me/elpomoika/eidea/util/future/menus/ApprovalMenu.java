@@ -2,8 +2,9 @@ package me.elpomoika.eidea.util.future;
 
 import lombok.Getter;
 import me.elpomoika.eidea.EIdea;
-import me.elpomoika.eidea.database.sqlite.MysqlRepository;
+import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.models.IdeaStatus;
+import me.elpomoika.eidea.util.future.core.AbstractMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
