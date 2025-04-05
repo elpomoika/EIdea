@@ -5,6 +5,7 @@ import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.models.Idea;
 import me.elpomoika.eidea.models.IdeaStatus;
 import me.elpomoika.eidea.util.future.menus.ApprovalMenu;
+import me.elpomoika.eidea.util.future.menus.PendingIdeasMenu;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
@@ -45,6 +46,8 @@ public abstract class IdeasMenu extends AbstractMenu {
 
             slot++;
         }
+
+        addBackItem();
     }
 
     protected ItemStack createIdeaItem(Idea idea) {
@@ -82,5 +85,20 @@ public abstract class IdeasMenu extends AbstractMenu {
         }
 
         return result.toArray(new Component[0]);
+    }
+
+    private void addBackItem() {
+        ItemStack itemStack = new ItemBuilder(Material.STONE_BUTTON)
+                .setDisplayName(ChatColor.WHITE + "Вернуться в главное меню")
+                .setAmount(1)
+                .build();
+
+        inventory.setItem(49, itemStack).setClickHandler(49, event -> {
+            Player player = (Player) event.getWhoClicked();
+
+            PendingIdeasMenu pendingIdeasMenu = new PendingIdeasMenu(getApi(), repository, plugin);
+            pendingIdeasMenu.init();
+            pendingIdeasMenu.open(player);
+        });
     }
 }

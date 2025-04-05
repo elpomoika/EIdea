@@ -6,6 +6,7 @@ import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.models.IdeaStatus;
 import me.elpomoika.eidea.util.future.core.AbstractMenu;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -24,36 +25,66 @@ public class ApprovalMenu extends AbstractMenu {
 
     @Override
     public NormalInventory createInventory() {
-        NormalInventory normalInventory = new NormalInventory(getApi(), this.plugin.getConfig().getString("approval-menu.title"), 54);
+        NormalInventory normalInventory = new NormalInventory(getApi(), this.plugin.getConfig().getString("approval-menu.title"), 27);
         return normalInventory;
     }
 
     @Override
     protected void initializeItems() {
         final String command = plugin.getConfig().getString("command-if-approved");
-        ItemStack approveItem = new ItemBuilder(Material.GREEN_WOOL)
-                .setDisplayName("&aОдобрить")
-                .setAmount(1)
-                .build();
 
-        ItemStack declineItem = new ItemBuilder(Material.RED_WOOL)
-                .setDisplayName("&cОтклонить")
-                .setAmount(1)
-                .build();
+        createApproveItem();
+        createDeclineItem();
 
-        inventory.setItem(45, approveItem).setClickHandler(45, event -> {
+        inventory.setItem(11, createApproveItem()).setClickHandler(11, event -> {
             Player player = (Player) event.getWhoClicked();
             repository.updateStatus(id, IdeaStatus.APPROVED.getDisplayName());
 
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player_name%", repository.getPlayer(id)));
             player.closeInventory();
         });
-        inventory.setItem(53, declineItem).setClickHandler(53, event -> {
+
+        inventory.setItem(15, createDeclineItem()).setClickHandler(15, event -> {
             Player player = (Player) event.getWhoClicked();
 
             repository.updateStatus(id, IdeaStatus.DECLINED.getDisplayName());
 
             player.closeInventory();
         });
+
+        addBackItem();
+    }
+
+    private void addBackItem() {
+        ItemStack itemStack = new ItemBuilder(Material.STONE_BUTTON)
+                .setDisplayName(ChatColor.WHITE + "Вернуться в главное меню")
+                .setAmount(1)
+                .build();
+
+        inventory.setItem(18, itemStack).setClickHandler(18, event -> {
+            Player player = (Player) event.getWhoClicked();
+
+            PendingIdeasMenu pendingIdeasMenu = new PendingIdeasMenu(getApi(), repository, plugin);
+            pendingIdeasMenu.init();
+            pendingIdeasMenu.open(player);
+        });
+    }
+
+    private ItemStack createApproveItem() {
+        ItemStack approveItem = new ItemBuilder(Material.GREEN_WOOL)
+                .setDisplayName("&aОдобрить")
+                .setAmount(1)
+                .build();
+
+        return approveItem;
+    }
+
+    private ItemStack createDeclineItem() {
+        ItemStack declineItem = new ItemBuilder(Material.RED_WOOL)
+                .setDisplayName("&cОтклонить")
+                .setAmount(1)
+                .build();
+
+        return declineItem;
     }
 }

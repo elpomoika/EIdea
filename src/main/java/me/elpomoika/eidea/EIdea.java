@@ -1,11 +1,9 @@
 package me.elpomoika.eidea;
 
-import me.elpomoika.eidea.commands.OpenIdeaGUICommand;
+import me.elpomoika.eidea.commands.OpenGuiCommand;
 import me.elpomoika.eidea.commands.SendIdeaCommand;
-import me.elpomoika.eidea.commands.TestOpenGUI;
 import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.database.mysql.MysqlService;
-import me.elpomoika.eidea.listeners.GUIListener;
 import me.elpomoika.eidea.models.ConfigModel;
 import me.elpomoika.eidea.util.CooldownManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,10 +41,9 @@ public final class EIdea extends JavaPlugin {
             getLogger().warning("ERROR IN EIDEA database");
             throw new RuntimeException(e);
         }
-        getCommand("ideas").setExecutor(new OpenIdeaGUICommand(repository, this));
-        getCommand("idea-test").setExecutor(new TestOpenGUI(repository, api, this));
+
+        getCommand("ideas").setExecutor(new OpenGuiCommand(repository, api, this));
         getCommand("idea").setExecutor(new SendIdeaCommand(repository, manager, this));
-        getServer().getPluginManager().registerEvents(new GUIListener(repository, this), this);
     }
 
     @Override

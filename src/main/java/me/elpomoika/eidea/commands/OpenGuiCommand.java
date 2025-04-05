@@ -11,12 +11,12 @@ import org.elpomoika.inventoryapi.InventoryApi;
 
 import java.util.Objects;
 
-public class TestOpenGUI implements CommandExecutor {
+public class OpenGuiCommand implements CommandExecutor {
     private final MysqlRepository repository;
     private final InventoryApi api;
     private final EIdea plugin;
 
-    public TestOpenGUI(MysqlRepository repository, InventoryApi api, EIdea plugin) {
+    public OpenGuiCommand(MysqlRepository repository, InventoryApi api, EIdea plugin) {
         this.repository = Objects.requireNonNull(repository, "MysqlRepository cannot be null");
         this.api = Objects.requireNonNull(api, "InventoryApi cannot be null");
         this.plugin = plugin;
@@ -25,6 +25,10 @@ public class TestOpenGUI implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] strings) {
         Player player = (Player) sender;
+
+        if (!(sender instanceof Player)) return false;
+        if (!(player.hasPermission("eidea.admin"))) return false;
+
         PendingIdeasMenu inventory = new PendingIdeasMenu(api, repository, plugin);
         inventory.init();
 

@@ -1,6 +1,10 @@
 package me.elpomoika.eidea.models;
 
+import lombok.Getter;
+
 import java.util.UUID;
+
+@Getter
 
 public class Idea {
     private final int id;
@@ -13,21 +17,5 @@ public class Idea {
         this.uuid = uuid;
         this.idea = idea;
         this.status = status;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public String getIdea() {
-        return idea;
-    }
-
-    public String getStatus() {
-        return status;
     }
 }

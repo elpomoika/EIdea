@@ -24,33 +24,29 @@ public class SendIdeaCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+        final Player player = (Player) sender;
+        final String message = String.join(" ", args);
+
         if (!(sender instanceof Player)) return false;
-        String message = String.join(" ", args);
-        //TODO сделать проверку на длинну
-        if (message.isEmpty()) {
-            sender.sendMessage(plugin.getConfig().getString("idea-is-empty-message"));
+
+        if (message.trim().length() >= 120) {
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("too-long-idea")));
         }
 
-        Player player = (Player) sender;
+        if (message.isEmpty()) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("idea-is-empty-message")));
+        }
+
         if (player.hasPermission("eidea.premium")) {
             repository.addPlayerPremium(player, message);
             return true;
-
         } else if (player.hasPermission("eidea.default")) {
+            checkPlayerHasCooldown(player);
 
-            if (manager.hasCooldown(player.getUniqueId())) {
-                Duration timeLeft = manager.getRemainingCooldown(player.getUniqueId());
-                String timeFormatted = formatDuration(timeLeft);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        plugin.getConfig().getString("cooldown-message")
-                                .replace("%remaining_time%", timeFormatted)));
-
-                return true;
-            }
             repository.addPlayer(player, message);
             return true;
         }
-        player.sendMessage(plugin.getConfig().getString("no-permission-message"));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("no-permission-message")));
         return false;
     }
 
@@ -58,5 +54,18 @@ public class SendIdeaCommand implements CommandExecutor {
         long seconds = duration.getSeconds();
         return String.format("%dh %02dm %02ds",
                 seconds / 3600, (seconds % 3600) / 60, seconds % 60);
+    }
+
+    private boolean checkPlayerHasCooldown(Player player) {
+        if (manager.hasCooldown(player.getUniqueId())) {
+            Duration timeLeft = manager.getRemainingCooldown(player.getUniqueId());
+            String timeFormatted = formatDuration(timeLeft);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    plugin.getConfig().getString("cooldown-message")
+                            .replace("%remaining_time%", timeFormatted)));
+
+            return true;
+        }
+        return false;
     }
 }

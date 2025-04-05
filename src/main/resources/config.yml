@@ -6,6 +6,7 @@ cooldown-message: "You cant do this %remaining_time%"
 no-permission-message: "You don't have permission to do that"
 
 idea-is-empty-message: "Please fill your ebanyi idea in command args"
+too-long-idea: "your idea is too long, max characters length is 120"
 
 command-if-approved: "give %player_name% diamond_helmet"
 
