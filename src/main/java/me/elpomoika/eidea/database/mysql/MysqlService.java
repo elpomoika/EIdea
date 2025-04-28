@@ -34,9 +34,10 @@ public class MysqlService implements DatabaseConnection {
         try (Statement statement = connection.createStatement()) {
             statement.execute("CREATE TABLE IF NOT EXISTS players (" +
                     "id INTEGER PRIMARY KEY AUTO_INCREMENT, " +
-                    "uuid TEXT NOT NULL, " +
+                    "uuid VARCHAR(36) NOT NULL, " +
                     "idea TEXT NOT NULL, " +
-                    "status TINYINT NOT NULL DEFAULT 0)");
+                    "status TINYINT NOT NULL DEFAULT 0)" +
+                    "CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci");
         }
     }
 

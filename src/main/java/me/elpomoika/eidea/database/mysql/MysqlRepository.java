@@ -179,7 +179,7 @@ public class MysqlRepository implements Repository {
     }
 
     private boolean isIdeaAlreadyExists(String idea) {
-        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("SELECT COUNT(*) FROM players WHERE idea = ?")){
+        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("SELECT COUNT(*) FROM players WHERE idea = ? COLLATE utf8mb4_general_ci")){
 
             preparedStatement.setString(1, idea);
             ResultSet rs = preparedStatement.executeQuery();

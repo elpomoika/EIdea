@@ -4,7 +4,7 @@
   <groupId>me.elpomoika</groupId>
   <artifactId>EIdea</artifactId>
   <name>EIdea</name>
-  <version>1.0</version>
+  <version>1.2</version>
   <build>
     <resources>
       <resource>
