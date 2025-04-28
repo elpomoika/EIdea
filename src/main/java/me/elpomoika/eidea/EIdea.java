@@ -7,6 +7,7 @@ import me.elpomoika.eidea.database.DatabaseConnection;
 import me.elpomoika.eidea.database.factories.DatabaseFactory;
 import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.database.mysql.MysqlService;
+import me.elpomoika.eidea.models.IdeaStatus;
 import me.elpomoika.eidea.models.config.BukkitConfigProvider;
 import me.elpomoika.eidea.models.config.ConfigModel;
 import me.elpomoika.eidea.util.CooldownManager;
@@ -26,9 +27,10 @@ public final class EIdea extends JavaPlugin {
         reloadConfig();
         DatabaseFactory databaseFactory = new DatabaseFactory(this, new BukkitConfigProvider(this));
         this.manager = new CooldownManager();
+        IdeaStatus.loadFromConfig(this);
 
         try {
-            data = databaseFactory.getDatabaseConnection(getConfig().getString("database-type"));
+            data = databaseFactory.getDatabaseConnection(getConfig().getString("database.type"));
             data.getConnection();
             data.createTable();
 

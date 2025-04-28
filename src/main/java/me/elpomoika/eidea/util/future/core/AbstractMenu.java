@@ -22,7 +22,7 @@ public abstract class AbstractMenu {
 
     public AbstractMenu(InventoryApi api, EIdea plugin) {
         repositoriesFactory = new RepositoriesFactory(plugin, new BukkitConfigProvider(plugin));
-        repository = repositoriesFactory.getRepository(plugin.getConfig().getString("database-type"));
+        repository = repositoriesFactory.getRepository(plugin.getConfig().getString("database.type"));
 
         this.api = api;
         this.plugin = plugin;

@@ -12,7 +12,7 @@ public interface Repository {
 
     String getPlayer(int id);
     String getStatus(int id);
-    void updateStatus(int id, String status);
+    void updateStatus(int id, byte status);
     List<Idea> getAllIdeas();
     int getRequestCountByPlayer(Player player);
 

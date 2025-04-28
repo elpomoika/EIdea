@@ -11,26 +11,26 @@ public class BukkitConfigProvider implements ConfigProvider{
 
     @Override
     public String getHost() {
-        return plugin.getConfig().getString("mysql.host");
+        return plugin.getConfig().getString("database.host");
     }
 
     @Override
     public String getPort() {
-        return plugin.getConfig().getString("mysql.port");
+        return plugin.getConfig().getString("database.port");
     }
 
     @Override
     public String getDatabase() {
-        return plugin.getConfig().getString("mysql.database");
+        return plugin.getConfig().getString("database.database");
     }
 
     @Override
     public String getUsername() {
-        return plugin.getConfig().getString("mysql.username");
+        return plugin.getConfig().getString("database.username");
     }
 
     @Override
     public String getPassword() {
-        return plugin.getConfig().getString("mysql.password");
+        return plugin.getConfig().getString("database.password");
     }
 }

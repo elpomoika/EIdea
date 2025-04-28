@@ -1,21 +1,52 @@
 package me.elpomoika.eidea.models;
 
+import lombok.Getter;
+import lombok.ToString;
+import org.bukkit.ChatColor;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@ToString
 public enum IdeaStatus {
-    APPROVED("ОДОБРЕНО"),
-    DECLINED("ОТКЛОНЕНО"),
-    PENDING("В ОЖИДАНИИ");
+    APPROVED((byte) 0),
+    DECLINED((byte) 1),
+    PENDING((byte) 2);
 
-    private final String displayName;
+    @Getter
+    private final byte id;
+    @Getter
+    private String displayName;
+    private static final Map<Byte, IdeaStatus> BY_ID = new HashMap<>();
 
-    IdeaStatus(String displayName) {
-        this.displayName = displayName;
+    static {
+        for (IdeaStatus status : values()) {
+            BY_ID.put(status.id, status);
+        }
     }
 
-    public String getDisplayName() {
-        return displayName;
+    IdeaStatus(byte id) {
+        this.id = id;
+        this.displayName = this.name();
     }
 
-    public boolean equalsIgnoreCase(String status) {
-        return this.displayName.equalsIgnoreCase(status);
+    public static void loadFromConfig(JavaPlugin plugin) {
+        for (IdeaStatus status : values()) {
+            String path = "idea-status." + status.name();
+            if (plugin.getConfig().contains(path)) {
+                status.displayName = ChatColor.translateAlternateColorCodes('&',
+                        plugin.getConfig().getString(path));
+            }
+        }
+    }
+
+    public static IdeaStatus fromId(byte id) {
+        for (IdeaStatus status : values()) {
+            if (status.id == id) {
+                return status;
+            }
+        }
+        throw new IllegalArgumentException("Unknown IdeaStatus id: " + id);
     }
 }

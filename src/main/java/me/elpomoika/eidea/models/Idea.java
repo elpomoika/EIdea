@@ -10,9 +10,9 @@ public class Idea {
     private final int id;
     private final UUID uuid;
     private final String idea;
-    private final String status;
+    private final IdeaStatus status;
 
-    public Idea(int id, UUID uuid, String idea, String status) {
+    public Idea(int id, UUID uuid, String idea, IdeaStatus status) {
         this.id = id;
         this.uuid = uuid;
         this.idea = idea;

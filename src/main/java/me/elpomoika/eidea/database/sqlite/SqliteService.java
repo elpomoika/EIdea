@@ -38,7 +38,7 @@ public class SqliteService implements DatabaseConnection {
                     "id INTEGER PRIMARY KEY, " +
                     "uuid TEXT NOT NULL, " +
                     "idea TEXT NOT NULL, " +
-                    "status VARCHAR(10) NOT NULL DEFAULT 'В ОЖИДАНИИ')");
+                    "status TINYINT NOT NULL DEFAULT 0)");
         }
     }
 

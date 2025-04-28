@@ -3,6 +3,7 @@ package me.elpomoika.eidea.database.mysql;
 import me.elpomoika.eidea.EIdea;
 import me.elpomoika.eidea.database.Repository;
 import me.elpomoika.eidea.models.Idea;
+import me.elpomoika.eidea.models.IdeaStatus;
 import me.elpomoika.eidea.util.CooldownManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -31,23 +32,26 @@ public class MysqlRepository implements Repository {
     public void addPlayer(Player player, String idea) {
         int requestCount = getRequestCountByPlayer(player);
         if (idea.isEmpty()) return;
+
         if (isIdeaAlreadyExists(idea)) {
-            player.sendMessage(ChatColor.RED + "Идея не уникальна!");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message.idea-isn't-unique")));
             return;
         }
 
         int maxRequest = 1;
 
         if (requestCount >= maxRequest) {
-            player.sendMessage("Вы не можете больше отправлять заявок.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message.idea-limit-message")));
             return;
         }
 
-        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, 'В ОЖИДАНИИ')")) {
+        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, ?)")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, idea);
+            preparedStatement.setByte(3, IdeaStatus.PENDING.getId());
+
             preparedStatement.executeUpdate();
-            player.sendMessage("Ваша заявка успешно отправлена!");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message.idea-successfully-send")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -58,7 +62,7 @@ public class MysqlRepository implements Repository {
         int requestCount = getRequestCountByPlayer(player);
         if (idea.isEmpty()) return;
         if (isIdeaAlreadyExists(idea)) {
-            player.sendMessage(ChatColor.RED + "Идея не уникальна!");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message.idea-isn't-unique")));
             return;
         }
 
@@ -66,15 +70,17 @@ public class MysqlRepository implements Repository {
         int maxRequests = hasPermission ? 3 : 1;
 
         if (requestCount >= maxRequests) {
-            player.sendMessage("Вы не можете отправить больше заявок.");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message.idea-limit-message")));
             return;
         }
 
-        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, 'В ОЖИДАНИИ')")) {
+        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("INSERT INTO players (uuid, idea, status) VALUES (?, ?, ?)")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
             preparedStatement.setString(2, idea);
+            preparedStatement.setByte(3, IdeaStatus.PENDING.getId());
+
             preparedStatement.executeUpdate();
-            player.sendMessage("Ваша заявка успешно отправлена!");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message.idea-successfully-send")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -107,20 +113,21 @@ public class MysqlRepository implements Repository {
             if (resultSet.next()) {
                 return resultSet.getString("status");
             }
-            return "Неизвестно";
+            return "Unknown";
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void updateStatus(int id, String status) {
+    public void updateStatus(int id, byte status) {
         try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("UPDATE players SET status = ? WHERE id = ?")) {
-            preparedStatement.setString(1, status);
+            preparedStatement.setByte(1, status);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-            if (status.equalsIgnoreCase("ОТКЛОНЕНО")) {
+            IdeaStatus ideaStatus = IdeaStatus.fromId(status);
+            if (ideaStatus == IdeaStatus.DECLINED) {
                 Player player = Bukkit.getPlayerExact(getPlayer(id));
                 if (player == null) return;
 
@@ -136,13 +143,19 @@ public class MysqlRepository implements Repository {
         List<Idea> list = new ArrayList<>();
         try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("SELECT id, uuid, idea, status FROM players")) {
             ResultSet resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
-                list.add(new Idea(
-                        resultSet.getInt("id"),
-                        UUID.fromString(resultSet.getString("uuid")),
-                        resultSet.getString("idea"),
-                        resultSet.getString("status")
-                ));
+                byte statusId = resultSet.getByte("status");
+                try {
+                    list.add(new Idea(
+                            resultSet.getInt("id"),
+                            UUID.fromString(resultSet.getString("uuid")),
+                            resultSet.getString("idea"),
+                            IdeaStatus.fromId(resultSet.getByte("status"))
+                    ));
+                } catch (IllegalArgumentException e) {
+                    System.err.println("Warning: Idea with ID " + resultSet.getInt("id") + " has invalid status: " + statusId);
+                }
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -152,8 +165,9 @@ public class MysqlRepository implements Repository {
 
     @Override
     public int getRequestCountByPlayer(Player player) {
-        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("SELECT COUNT(*) FROM players WHERE uuid = ? AND status = 'В ОЖИДАНИИ'")) {
+        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("SELECT COUNT(*) FROM players WHERE uuid = ? AND status = ?")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
+            preparedStatement.setByte(2, IdeaStatus.PENDING.getId());
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 return resultSet.getInt(1);

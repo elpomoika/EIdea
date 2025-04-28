@@ -4,7 +4,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.elpomoika.eidea.EIdea;
 import me.elpomoika.eidea.database.Repository;
 import me.elpomoika.eidea.database.factories.RepositoriesFactory;
-import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.models.Idea;
 import me.elpomoika.eidea.models.IdeaStatus;
 import me.elpomoika.eidea.models.config.BukkitConfigProvider;
@@ -12,7 +11,6 @@ import me.elpomoika.eidea.util.HeadManager;
 import me.elpomoika.eidea.util.future.menus.ApprovalMenu;
 import me.elpomoika.eidea.util.future.menus.PendingIdeasMenu;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -26,7 +24,6 @@ import org.elpomoika.inventoryapi.item.ItemBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class IdeasMenu extends AbstractMenu {
     protected final IdeaStatus ideaStatus;
@@ -36,7 +33,7 @@ public abstract class IdeasMenu extends AbstractMenu {
     public IdeasMenu(InventoryApi api, EIdea plugin, IdeaStatus ideaStatus) {
         super(api, plugin);
         repositoriesFactory = new RepositoriesFactory(plugin, new BukkitConfigProvider(plugin));
-        repository = repositoriesFactory.getRepository(plugin.getConfig().getString("database-type"));
+        repository = repositoriesFactory.getRepository(plugin.getConfig().getString("database.type"));
         this.ideaStatus = ideaStatus;
     }
 
@@ -51,7 +48,7 @@ public abstract class IdeasMenu extends AbstractMenu {
         int slot = 0;
 
         for (Idea idea : ideas) {
-            if (!ideaStatus.equalsIgnoreCase(idea.getStatus())) continue;
+            if (idea.getStatus() != ideaStatus) continue;
             createIdeaItem(idea);
             setupClickHandler(slot, idea);
 
@@ -112,7 +109,7 @@ public abstract class IdeasMenu extends AbstractMenu {
         for (String line : loreLines) {
             line = PlaceholderAPI.setPlaceholders(player, line.replace("%player%", player.getName())
                     .replace("%idea%", idea.getIdea())
-                    .replace("%status%", idea.getStatus().toString()));
+                    .replace("%status%", idea.getStatus().getDisplayName()));
             result.add(Component.text(ChatColor.translateAlternateColorCodes('&', line)));
         }
 

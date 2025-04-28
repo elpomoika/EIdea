@@ -2,10 +2,7 @@ package me.elpomoika.eidea.util.future.menus;
 
 import lombok.Getter;
 import me.elpomoika.eidea.EIdea;
-import me.elpomoika.eidea.database.factories.RepositoriesFactory;
-import me.elpomoika.eidea.database.mysql.MysqlRepository;
 import me.elpomoika.eidea.models.IdeaStatus;
-import me.elpomoika.eidea.models.config.BukkitConfigProvider;
 import me.elpomoika.eidea.util.future.core.AbstractMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,20 +36,23 @@ public class ApprovalMenu extends AbstractMenu {
         createDeclineItem();
         inventory.setItem(11, createApproveItem()).setClickHandler(11, event -> {
             Player player = (Player) event.getWhoClicked();
-            repository.updateStatus(id, IdeaStatus.APPROVED.getDisplayName());
+            repository.updateStatus(id, IdeaStatus.APPROVED.getId());
 
             if (!command.isEmpty()) {
-                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player_name%", repository.getPlayer(id)));
+                String playerName = repository.getPlayer(id);
+                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command.replace("%player_name%", playerName));
+                player.closeInventory();
             }
-            player.closeInventory();
         });
 
         inventory.setItem(15, createDeclineItem()).setClickHandler(15, event -> {
             Player player = (Player) event.getWhoClicked();
 
-            repository.updateStatus(id, IdeaStatus.DECLINED.getDisplayName());
+            Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+                repository.updateStatus(id, IdeaStatus.DECLINED.getId());
 
-            player.closeInventory();
+                Bukkit.getScheduler().runTask(plugin, () -> player.closeInventory());
+            });
         });
 
         addBackItem();
