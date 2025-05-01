@@ -1,0 +1,22 @@
+package me.elpomoika.eidea.util.future.menus;
+
+import me.elpomoika.eidea.EIdea;
+import me.elpomoika.eidea.models.IdeaStatus;
+import me.elpomoika.eidea.util.future.core.IdeasMenu;
+import org.elpomoika.inventoryapi.InventoryApi;
+import org.elpomoika.inventoryapi.inventory.NormalInventory;
+
+public class OnlyApproveMenu extends IdeasMenu {
+
+    public OnlyApproveMenu(InventoryApi api, EIdea plugin) {
+        super(api, plugin, IdeaStatus.APPROVED);
+    }
+
+    @Override
+    public NormalInventory createInventory() {
+        NormalInventory normalInventory = new NormalInventory(getApi(), plugin.getConfig().getString("only-approve-menu.title"), 54);
+
+
+        return normalInventory;
+    }
+}

@@ -1,0 +1,48 @@
+message:
+  approve-message: "The idea successfully approved"
+  decline-message: "The idea successfully declined"
+
+  cooldown-message: "You cant do this %remaining_time%"
+  no-permission-message: "You don't have permission to do that"
+  idea-limit-message: "You cannot submit more applications."
+  idea-isn't-unique: "Your idea isn't unique"
+  idea-successfully-send: "Your idea successfully send to admins"
+
+  idea-is-empty-message: "Please fill your idea in command args"
+  too-long-idea: "your idea is too long, max characters length is 120"
+
+idea-status:
+  APPROVED: "&3Approved"
+  DECLINED: "&cDeclined"
+  PENDING: "&fPending"
+
+command-if-approved: "give %player_name% diamond_helmet 1"
+
+cooldown: 10
+
+idea-item:
+  material: "PAPER"
+  head-base64: "omit this if you use simple material or you want author's head"
+  displayname: "&aIdea №%id%"
+  lore:
+    - "&c&lAuthor: %player%"
+    - "&fIdea: %idea%"
+    - "&aStatus: %status%"
+
+pending-ideas-menu:
+  title: "Pending ideas"
+only-declined-menu:
+  title: "Declined ideas"
+only-approve-menu:
+  title: "Approved ideas"
+approval-menu:
+  title: "Approval menu"
+
+
+database:
+  type: sqlite
+  host: 127.0.0.1
+  port: 3306
+  database: test_db
+  username: elpomoika
+  password: 1234
