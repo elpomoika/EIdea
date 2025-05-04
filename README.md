@@ -4,11 +4,17 @@ This plugin allows players to submit feedbacks for review via the `/feedback` co
 
 ## Features
 
-- **Command**: `/feedback` - Used to submit feedbacks for review.
+- **Command**: `/idea` - Used to submit feedbacks for review.
 - **Permissions**:
-  - `eidea.default` - Players with this permission can submit **1 feedback**. After approval, a cooldown is applied.
-  - `eidea.premium` - Players with this permission can submit **3 feedbacks**. After approval, a cooldown is applied.
-  - `eidea.admin` - Admins have access to a special menu for managing feedbacks.
+  - `feedback.default` - Players with this permission can submit **1 feedback**. After approval, a cooldown is applied.
+  - `feedback.premium` - Players with this permission can submit **3 feedbacks**. After approval, a cooldown is applied.
+  - `feedback.admin` - Admins have access to a special menu for managing feedbacks.
+
+- **Command**: `/bugs` - Used to submit feedbacks for review.
+- **Permissions**:
+  - `feedback.default` - Players with this permission can submit **1 feedback**. After approval, a cooldown is applied.
+  - `feedback.premium` - Players with this permission can submit **3 feedbacks**. After approval, a cooldown is applied.
+  - `feedback.admin` - Admins have access to a special menu for managing feedbacks.
 
 ## Installation
 
@@ -20,22 +26,22 @@ This plugin allows players to submit feedbacks for review via the `/feedback` co
 
 To use the plugin, set the following permissions in your permission plugin:
 
-- `eidea.default` — for regular players, allowing them to submit 1 feedback and set cooldown from config.
-- `eidea.premium` — for premium players, allowing them to submit 3 feedbacks.
-- `eidea.admin` — for admins, granting access to the feedback management menu.
+- `feedback.default` — for regular players, allowing them to submit 1 feedback and set cooldown from config.
+- `feedback.premium` — for premium players, allowing them to submit 3 feedbacks.
+- `feedback.admin` — for admins, granting access to the feedback management menu.
 
 ## Usage
 
 ### `/feedback` Command
 
-- Players with the `eidea.default` permission can submit one feedback.
-- Players with the `eidea.premium` permission can submit up to three feedbacks.
+- Players with the `feedback.default` permission can submit one feedback.
+- Players with the `feedback.premium` permission can submit up to three feedbacks.
 - After each feedback is approved, a cooldown is applied (configurable).
-- Admins with `eidea.admin` permission have access to a special menu for managing all feedbacks.
+- Admins with `feedback.admin` permission have access to a special menu for managing all feedbacks.
 
 ### Admin Menu
 
-Admins (with the `eidea.admin` permission) can access a menu with the following features:
+Admins (with the `feedback.admin` permission) can access a menu with the following features:
 
 - View all submitted feedbacks.
 - Approve or reject feedbacks.
