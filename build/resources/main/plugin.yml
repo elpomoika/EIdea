@@ -1,0 +1,24 @@
+name: FeedbackMaster
+version: '1.2'
+main: me.elpomoika.eidea.FeedbackMaster
+api-version: '1.16'
+
+permissions:
+  feedback.default:
+    description: Allow access for default players
+  feedback.premium:
+    description: Allow for premium players
+  feedback.admin:
+    description: Admin and moderators permission
+
+
+commands:
+  idea:
+    usage: /idea <your idea>
+  ideas: {}
+  feedback:
+    permission: "feedback.admin"
+  bug:
+    usage: /bug <your bug>
+  bugs:
+    permission: "feedback.admin"

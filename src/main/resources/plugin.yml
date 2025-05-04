@@ -1,14 +1,14 @@
-name: EIdea
+name: FeedbackMaster
 version: '${version}'
-main: me.elpomoika.eidea.EIdea
+main: me.elpomoika.eidea.FeedbackMaster
 api-version: '1.16'
 
 permissions:
-  eidea.default:
+  feedback.default:
     description: Allow access for default players
-  eidea.premium:
+  feedback.premium:
     description: Allow for premium players
-  eidea.admin:
+  feedback.admin:
     description: Admin and moderators permission
 
 
@@ -16,5 +16,9 @@ commands:
   idea:
     usage: /idea <your idea>
   ideas: {}
-  eidea:
-    permission: "eidea.admin"
+  feedback:
+    permission: "feedback.admin"
+  bug:
+    usage: /bug <your bug>
+  bugs:
+    permission: "feedback.admin"

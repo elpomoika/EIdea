@@ -1,6 +1,6 @@
 package me.elpomoika.eidea.database.factories;
 
-import me.elpomoika.eidea.EIdea;
+import me.elpomoika.eidea.FeedbackMaster;
 import me.elpomoika.eidea.database.DatabaseConnection;
 import me.elpomoika.eidea.database.mysql.MysqlService;
 import me.elpomoika.eidea.database.sqlite.SqliteService;
@@ -8,10 +8,10 @@ import me.elpomoika.eidea.models.config.BukkitConfigProvider;
 import me.elpomoika.eidea.models.config.ConfigModel;
 
 public class DatabaseFactory {
-    private final EIdea plugin;
+    private final FeedbackMaster plugin;
     private final BukkitConfigProvider config;
 
-    public DatabaseFactory(EIdea plugin, BukkitConfigProvider config) {
+    public DatabaseFactory(FeedbackMaster plugin, BukkitConfigProvider config) {
         this.plugin = plugin;
         this.config = config;
     }

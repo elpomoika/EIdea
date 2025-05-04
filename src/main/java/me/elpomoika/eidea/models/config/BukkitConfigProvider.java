@@ -1,11 +1,11 @@
 package me.elpomoika.eidea.models.config;
 
-import me.elpomoika.eidea.EIdea;
+import me.elpomoika.eidea.FeedbackMaster;
 
 public class BukkitConfigProvider implements ConfigProvider{
-    private final EIdea plugin;
+    private final FeedbackMaster plugin;
 
-    public BukkitConfigProvider(EIdea plugin) {
+    public BukkitConfigProvider(FeedbackMaster plugin) {
         this.plugin = plugin;
     }
 

@@ -1,6 +1,6 @@
 package me.elpomoika.eidea.database.sqlite;
 
-import me.elpomoika.eidea.EIdea;
+import me.elpomoika.eidea.FeedbackMaster;
 import me.elpomoika.eidea.database.DatabaseConnection;
 
 import java.sql.Connection;
@@ -12,16 +12,16 @@ public class SqliteService implements DatabaseConnection {
     private Connection connection;
     private String path;
     private String url;
-    private final EIdea plugin;
+    private final FeedbackMaster plugin;
 
-    public SqliteService(EIdea plugin) {
+    public SqliteService(FeedbackMaster plugin) {
         this.plugin = plugin;
     }
 
 
     @Override
     public Connection getConnection() {
-        path = plugin.getDataFolder().getAbsolutePath() + "/eidea.db";
+        path = plugin.getDataFolder().getAbsolutePath() + "/feedback.db";
         url = "jdbc:sqlite:" + path;
         try {
             connection = DriverManager.getConnection(url);
@@ -37,7 +37,8 @@ public class SqliteService implements DatabaseConnection {
             statement.execute("CREATE TABLE IF NOT EXISTS players (" +
                     "id INTEGER PRIMARY KEY, " +
                     "uuid TEXT NOT NULL, " +
-                    "idea TEXT NOT NULL, " +
+                    "idea TEXT NOT NULL," +
+                    "type TINYINT NOT NULL, " +
                     "status TINYINT NOT NULL DEFAULT 0)");
         }
     }
