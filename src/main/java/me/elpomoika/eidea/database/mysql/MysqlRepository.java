@@ -1,8 +1,7 @@
 package me.elpomoika.eidea.database.mysql;
 
 import me.elpomoika.eidea.FeedbackMaster;
-import me.elpomoika.eidea.database.Repository;
-import me.elpomoika.eidea.models.Feedback;
+import me.elpomoika.eidea.database.AbstractRepository;
 import me.elpomoika.eidea.models.FeedbackType;
 import me.elpomoika.eidea.models.Status;
 import me.elpomoika.eidea.util.cooldown.CooldownManager;
@@ -14,17 +13,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-public class MysqlRepository implements Repository {
-    private final MysqlService service;
-    private final FeedbackMaster plugin;
+public class MysqlRepository extends AbstractRepository {
 
     public MysqlRepository(MysqlService service, FeedbackMaster plugin) {
-        this.service = service;
-        this.plugin = plugin;
+        super(service, plugin);
     }
 
     @Override
@@ -33,15 +27,14 @@ public class MysqlRepository implements Repository {
         if (feedback.isEmpty()) return;
 
         if (isFeedbackAlreadyExists(feedback)) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message." + type.name().toLowerCase() + "." + type.name().toLowerCase() + "-isn't-unique")));
-            System.out.println("message." + type.name().toLowerCase() + "." + type.name().toLowerCase() + "-isn't-unique");
+            sendConfigMessage(player, type, "isn't-unique");
             return;
         }
 
         int maxRequest = 1;
 
         if (requestCount >= maxRequest) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message." + type.name().toLowerCase() + "." + type.name().toLowerCase() + "-limit-message")));
+            sendConfigMessage(player, type, "limit-message");
             return;
         }
 
@@ -52,7 +45,7 @@ public class MysqlRepository implements Repository {
             preparedStatement.setByte(4, Status.PENDING.getId());
 
             preparedStatement.executeUpdate();
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message." + type.name().toLowerCase() + "." + type.name().toLowerCase() + "-successfully-send")));
+            sendConfigMessage(player, type, "successfully-send");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +56,7 @@ public class MysqlRepository implements Repository {
         int requestCount = getRequestCountByPlayer(player, FeedbackType.fromId(type.getId()));
         if (feedback.isEmpty()) return;
         if (isFeedbackAlreadyExists(feedback)) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message." + type.name() + "." + type.name() + "-isn't-unique")));
+            sendConfigMessage(player, type, "isn't-unique");
             return;
         }
 
@@ -72,11 +65,9 @@ public class MysqlRepository implements Repository {
         int maxRequests = hasPermission ? 3 : 1;
 
         if (requestCount >= maxRequests) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message." + type.name().toLowerCase() + "." + type.name().toLowerCase() + "-limit-message")));
+            sendConfigMessage(player, type, "limit-message");
             return;
         }
-
-        System.out.println("message." + type.name() + "." + type.name() + "-isn't-unique");
 
         try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("INSERT INTO players (uuid, idea, type, status) VALUES (?, ?, ?, ?)")) {
             preparedStatement.setString(1, player.getUniqueId().toString());
@@ -85,7 +76,7 @@ public class MysqlRepository implements Repository {
             preparedStatement.setByte(4, Status.PENDING.getId());
 
             preparedStatement.executeUpdate();
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("message." + type.name().toLowerCase() + "." + type.name().toLowerCase() + "-successfully-send")));
+            sendConfigMessage(player, type, "successfully-send");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -124,60 +115,6 @@ public class MysqlRepository implements Repository {
 
                 manager.setCooldown(player.getUniqueId(), Duration.ofSeconds(plugin.getConfig().getLong("cooldown")));
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public List<Feedback> getAllFeedback(FeedbackType filterType) {
-        List<Feedback> list = new ArrayList<>();
-
-        final String sql = "SELECT id, uuid, idea, type, status FROM players" +
-                (filterType != null ? " WHERE type = ?" : "");
-
-        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement(sql)) {
-            if (filterType != null) {
-                preparedStatement.setInt(1, filterType.getId());
-            }
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                list.add(new Feedback(
-                        resultSet.getInt("id"),
-                        UUID.fromString(resultSet.getString("uuid")),
-                        resultSet.getString("idea"),
-                        Status.fromId(resultSet.getByte("status")),
-                        FeedbackType.fromId(resultSet.getInt("type"))
-                ));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return list;
-    }
-
-    @Override
-    public int getRequestCountByPlayer(Player player, FeedbackType type) {
-        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("SELECT COUNT(*) FROM players WHERE uuid = ? AND status = ? AND type = ?")) {
-            preparedStatement.setString(1, player.getUniqueId().toString());
-            preparedStatement.setByte(2, Status.PENDING.getId());
-            preparedStatement.setInt(3, type.getId());
-            ResultSet resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                return resultSet.getInt(1);
-            }
-            return 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private boolean isFeedbackAlreadyExists(String idea) {
-        try (PreparedStatement preparedStatement = service.getConnection().prepareStatement("SELECT COUNT(*) FROM players WHERE idea = ? COLLATE utf8mb4_general_ci")){
-            preparedStatement.setString(1, idea);
-            ResultSet rs = preparedStatement.executeQuery();
-            return rs.next() && rs.getInt(1) > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

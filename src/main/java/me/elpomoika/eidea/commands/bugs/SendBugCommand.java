@@ -28,7 +28,6 @@ public class SendBugCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    //TODO fix methods below
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         final Player player = (Player) sender;
@@ -70,9 +69,9 @@ public class SendBugCommand implements CommandExecutor {
         if (manager.hasCooldown(player.getUniqueId())) {
             Duration timeLeft = manager.getRemainingCooldown(player.getUniqueId());
             String timeFormatted = formatDuration(timeLeft);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    plugin.getConfig().getString("message.bug.cooldown-message")
-                            .replace("%remaining_time%", timeFormatted)));
+            String message = plugin.getConfig().getString("message.bug.cooldown-message").replace("%remaining_time%", timeFormatted);
+
+            sendConfigMessage(player, message);
 
             return true;
         }

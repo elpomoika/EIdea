@@ -4,7 +4,7 @@ import me.elpomoika.eidea.FeedbackMaster;
 import me.elpomoika.eidea.database.Repository;
 import me.elpomoika.eidea.database.factories.RepositoriesFactory;
 import me.elpomoika.eidea.models.config.BukkitConfigProvider;
-import me.elpomoika.eidea.future.bugs.menus.PendingBugsMenu;
+import me.elpomoika.eidea.feature.bug.menus.PendingBugsMenu;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

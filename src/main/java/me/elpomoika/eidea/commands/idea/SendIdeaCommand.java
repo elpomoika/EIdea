@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 
@@ -27,13 +28,10 @@ public class SendIdeaCommand implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    //TODO fix methods below
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, String[] args) {
         final Player player = (Player) sender;
         final String message = String.join(" ", args);
-
-        if (!(sender instanceof Player)) return false;
 
         if (message.trim().length() >= 120) {
             sendConfigMessage(player, "message.idea.too-long-idea");
@@ -71,9 +69,9 @@ public class SendIdeaCommand implements CommandExecutor {
         if (manager.hasCooldown(player.getUniqueId())) {
             Duration timeLeft = manager.getRemainingCooldown(player.getUniqueId());
             String timeFormatted = formatDuration(timeLeft);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    plugin.getConfig().getString("message.idea.cooldown-message")
-                            .replace("%remaining_time%", timeFormatted)));
+            String message = plugin.getConfig().getString("message.idea.cooldown-message").replace("%remaining_time%", timeFormatted);
+
+            sendConfigMessage(player, message);
 
             return true;
         }

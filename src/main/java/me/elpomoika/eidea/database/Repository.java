@@ -17,4 +17,5 @@ public interface Repository {
     List<Feedback> getAllFeedback(FeedbackType type);
     int getRequestCountByPlayer(Player player, FeedbackType type);
 
+    boolean isFeedbackAlreadyExists(String idea);
 }
